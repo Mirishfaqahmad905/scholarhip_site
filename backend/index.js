@@ -59,7 +59,9 @@ app.use('/uploads', express.static('uploads'));
 
 // API Routes
 app.use('/api', userRoute);
-
+app.use(cors({
+  origin: "https://scholarhip-site-frontend.vercel.app" // 👈 your frontend domain
+}));
 // Root route (optional)
 app.get('/', (req, res) => {
   res.send('✅ API server is running...');
