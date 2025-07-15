@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Ads from "../ads/Ads";
 import axios from "axios";
- import SubscribeModal from "./subscribeModal";
+ import SubscribeModal from "./subscribeModal.jsx";
 import Api_url from "../constant/constant";
 // Scholarship Detail Modal
 const ScholarshipDetailModal = ({ open, onClose, scholarship }) => {
