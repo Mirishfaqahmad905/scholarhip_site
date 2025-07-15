@@ -254,7 +254,7 @@ const ScholarshipCarousel = ({ onViewDetails }) => {
   useEffect(() => {
     const fetchScholarships = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/get/scholarship_data");
+        const res = await axios.get(`${Api_url.BACKEND_URI}/api/get/scholarship_data`);
         const now = new Date();
         const openScholarships = (res.data || []).filter(
           (s) => s.deadline && new Date(s.deadline) >= now
