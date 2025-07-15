@@ -1,6 +1,7 @@
 
 
  const Api_url= {
-    BACKEND_URI: "http://localhost:5000",
+   
+    BACKEND_URI: "https://scholarhip-site-backend.vercel.app",
 };
 export default Api_url;
