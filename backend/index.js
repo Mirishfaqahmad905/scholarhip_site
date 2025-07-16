@@ -61,8 +61,9 @@ app.use('/uploads', express.static('uploads'));
 app.use('/api', userRoute);
 
 app.use(cors({
-  origin: "https://scholarhip-site-client.vercel.app", // your frontend domain
-  credentials: true
+  origin: 'https://scholarhip-site-client.vercel.app', // Your frontend on Vercel
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // only if you're using cookies
 }));
 // Root route (optional)
 app.get('/', (req, res) => {
