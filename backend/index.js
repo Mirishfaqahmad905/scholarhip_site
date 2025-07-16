@@ -107,7 +107,7 @@ const PORT = process.env.PORT || 3000;
 
 // ✅ Allow frontend domain in CORS
 app.use(cors({
-  origin: ['https://scholarhip-site-client.vercel.app'],
+  origin: ['https://scholarhip-site-client.vercel.app','https://scholarhip-site-client-cj5zshrs2-mir-ishfaq-ahmads-projects.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
