@@ -36,7 +36,9 @@ import Bloge from './components/Bloge.jsx';
 import Add_bloge from './admin/Add_bloge.jsx';
 import Mange_scholarship from './admin/Mange_scholarship.jsx';
 import Mange_bloge from './admin/Mange_bloge.jsx';
+import axios from 'axios';
 const App = () => {
+    axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
   return (
     <div>
       {/* Navbar */}
