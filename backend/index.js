@@ -30,51 +30,113 @@
 
 
 
+// const express = require('express');
+// const dotenv = require('dotenv');
+// const cors = require('cors');
+// const morgan = require('morgan'); // optional for logging
+// const bodyParser = require('body-parser');
+// const connectDb = require('./config/Db');
+// const userRoute = require('./routes/useRoue.js'); // Make sure this path is correct
+
+// // Initialize dotenv
+// dotenv.config();
+
+// // Connect MongoDB
+// connectDb();
+
+// const app = express();
+// const PORT = process.env.PORT || 3000;
+
+// // Middleware
+// app.use(cors());
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(morgan('dev')); // optional logging
+
+// // Serve uploaded images statically
+// app.use('/uploads', express.static('uploads'));
+
+// // API Routes
+// app.use('/api', userRoute);
+
+// app.use(cors({
+//   origin: 'https://scholarhip-site-client.vercel.app', // Your frontend on Vercel
+//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true // only if you're using cookies
+// }));
+// // Root route (optional)
+// app.get('/', (req, res) => {
+//   res.send('✅ API server is running...');
+// });
+
+// // Email env check (optional for debug)
+// console.log('GMAIL:', process.env.GMAIL);
+// console.log('APP_PASSWORD:', process.env.APP_PASSWORD);
+
+// // Start Server
+// app.listen(PORT, () => {
+//   console.log(`🚀 Server running on http://localhost:${PORT}`);
+// });
+
+
+
+
+
+
+
+
+
+
+
+
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const morgan = require('morgan'); // optional for logging
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const connectDb = require('./config/Db');
-const userRoute = require('./routes/useRoue.js'); // Make sure this path is correct
+const userRoute = require('./routes/useRoue.js');
 
-// Initialize dotenv
 dotenv.config();
-
-// Connect MongoDB
 connectDb();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ✅ CORRECT: Put your custom CORS config BEFORE other routes or middleware
+app.use(cors({
+  origin: [
+    'https://scholarhip-site-client.vercel.app',
+    'https://scholarhip-site-frontend-bose4xc2c-mir-ishfaq-ahmads-projects.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(morgan('dev')); // optional logging
+app.use(morgan('dev'));
 
-// Serve uploaded images statically
+// Static file serving
 app.use('/uploads', express.static('uploads'));
 
 // API Routes
 app.use('/api', userRoute);
 
-app.use(cors({
-  origin: 'https://scholarhip-site-client.vercel.app', // Your frontend on Vercel
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // only if you're using cookies
-}));
-// Root route (optional)
+// Optional root check
 app.get('/', (req, res) => {
   res.send('✅ API server is running...');
 });
 
-// Email env check (optional for debug)
+// Optional log env for debug
 console.log('GMAIL:', process.env.GMAIL);
 console.log('APP_PASSWORD:', process.env.APP_PASSWORD);
 
-// Start Server
+// Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+
