@@ -196,7 +196,7 @@ const BrowseScholarshipModal = ({ open, onClose }) => {
           >
             &times;
           </button>
-          <h2 className="text-xl font-bold mb-4 text-center">Browse Scholarships</h2>
+          <h2 className="text-xl font-bold mb-4 text-center">Browse All  Scholarships</h2>
           <input
             type="text"
             value={query}
@@ -402,7 +402,7 @@ const Homepage = () => {
               to=""
               className="bg-white text-blue-600 px-6 py-2 rounded font-semibold hover:bg-gray-200 transition"
             >
-           click on browse scholarship and open your best scholarship
+           click on browse scholarship and open your fav scholarship
             </Link> */}
             <button
               onClick={() => setModalOpen(true)}
@@ -447,7 +447,7 @@ const Homepage = () => {
                 to="/scholarships/field"
                 className="bg-gray-200 hover:bg-blue-600 hover:text-white text-gray-800 px-6 py-2 rounded font-medium transition"
               >
-                By Field
+                By Fields
               </Link>
             </div>
           </div>
