@@ -1,5 +1,5 @@
 const Api_url = {
-   BACKEND_URI: "https://scholarhip-site-backend-git-main-mir-ishfaq-ahmads-projects.vercel.app",
+   BACKEND_URI: "scholarhip-site-backend.vercel.app",
 };
 
 export default Api_url;
