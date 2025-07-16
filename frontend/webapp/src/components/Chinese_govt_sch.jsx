@@ -122,7 +122,7 @@ const Chinese_govt_sch = () => {
     const fetchScholarships = async () => {
       // "http://localhost:5000/api/get/scholarship_data"
       try {
-        const res = await axios.get("https://scholarhip-site-backend.vercel.app/api/get/scholarship_data");
+        const res = await axios.get(`Api_url.BACKEND_URI/api/get/scholarship_data`);
         const filtered = res.data.filter(
           (sch) => sch.country && sch.country.toLowerCase() === "china"
         );
