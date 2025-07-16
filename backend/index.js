@@ -89,27 +89,25 @@
 
 
 
-
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const connectDb = require('./config/Db');
-const userRoute = require('./routes/useRoue.js');
+const userRoute = require('./routes/useRoue'); // Make sure filename and path are correct
 
 dotenv.config();
+
+// Connect MongoDB
 connectDb();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ CORRECT: Put your custom CORS config BEFORE other routes or middleware
+// ✅ Allow frontend domain in CORS
 app.use(cors({
-  origin: [
-    'https://scholarhip-site-client.vercel.app',
-    
-  ],
+  origin: ['https://scholarhip-site-client.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
@@ -120,23 +118,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-// Static file serving
+// Serve uploaded files
 app.use('/uploads', express.static('uploads'));
 
 // API Routes
 app.use('/api', userRoute);
 
-// Optional root check
+// Root route (optional)
 app.get('/', (req, res) => {
   res.send('✅ API server is running...');
 });
 
-// Optional log env for debug
-console.log('GMAIL:', process.env.GMAIL);
-console.log('APP_PASSWORD:', process.env.APP_PASSWORD);
-
-// Start server
+// Start the server
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
 
