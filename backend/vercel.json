@@ -16,7 +16,7 @@
         {
           "key": "Access-Control-Allow-Origin",
           "value": "scholarhip-site-client.vercel.app"
-"
+
         },
         {
           "key": "Access-Control-Allow-Methods",
