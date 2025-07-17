@@ -120,7 +120,7 @@ app.use('/api', userRoute);
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('✅ Backend is live');
+  res.send('✅ Backend is live Now');
 });
 
 app.listen(PORT, () => {
