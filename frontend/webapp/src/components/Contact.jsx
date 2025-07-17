@@ -24,7 +24,7 @@ const Contact = () => {
     const postdata = await axios.post(`${Api_url.BACKEND_URI}/api/contact`, formData);
     if(postdata.status === 201) {
        {
-         alert("data save succesfully ");
+         alert("Successfully Send the message thankyou ");
        }
     console.log('Submitted Data:', formData);
      } 
