@@ -1,29 +1,12 @@
 {
-“builds”: [
-{ “src”: “package.json”, “use”: “@vercel/node” }
-]
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://scholarhip-site-backend.vercel.app/api/:match*"
+    }
+  ],
+  "frontend": {
+    "src": "frontend/webapp"
+  }
 }
 
-
-{
-“routes”: [
-{ “src”: “/old-route”, “dest”: “/new-route” },
-{ “src”: “/api/(.*)”, “dest”: “/api/index.js” }
-]
-}
-
-
-
-{
-“env”: {
-“NODE_ENV”: “production”
-}
-}
-
-
-
-{
-“functions”: {
-“api/index.js”: { “runtime”: “vercel-node@2.0.0” }
-}
-}
