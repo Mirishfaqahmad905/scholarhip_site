@@ -103,7 +103,7 @@ const PORT = process.env.PORT || 3000;
 
 // ✅ Correct CORS Setup
 app.use(cors({
-  origin: 'https://scholarhip-site-frontend-ten.vercel.app',
+  origin: 'scholarhip-site-client.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
