@@ -1,3 +1,29 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+“builds”: [
+{ “src”: “package.json”, “use”: “@vercel/node” }
+]
+}
+
+
+{
+“routes”: [
+{ “src”: “/old-route”, “dest”: “/new-route” },
+{ “src”: “/api/(.*)”, “dest”: “/api/index.js” }
+]
+}
+
+
+
+{
+“env”: {
+“NODE_ENV”: “production”
+}
+}
+
+
+
+{
+“functions”: {
+“api/index.js”: { “runtime”: “vercel-node@2.0.0” }
+}
 }
