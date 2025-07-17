@@ -15,7 +15,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://scholarhip-site-client.vercel.app"
+          "value": "scholarhip-site-frontend-ten.vercel.app"
         },
         {
           "key": "Access-Control-Allow-Methods",
