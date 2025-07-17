@@ -43,7 +43,23 @@ const Ads = () => {
             2</p>
         </div>
         <div className="bg-white rounded shadow p-4 text-center">
-          <p className="text-sm text-gray-700">Ad Space 3</p>
+          <p className="text-sm text-gray-700">
+            
+            
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7807051843526803"
+     crossorigin="anonymous"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-7807051843526803"
+     data-ad-slot="3966095274"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+           
+            
+            3</p>
         </div>
       </div>
     </aside>
