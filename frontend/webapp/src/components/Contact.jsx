@@ -53,7 +53,7 @@ const Contact = () => {
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-green-600 hover:text-green-800 text-lg"
           >
-            <FaWhatsapp className="text-2xl" /> WhatsApp Group
+            <FaWhatsapp className="text-2xl" /> WhatsApp 
           </a>
           <a
             href="https://www.instagram.com/iam_mir905/"
@@ -61,7 +61,7 @@ const Contact = () => {
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-pink-500 hover:text-pink-700 text-lg"
           >
-            <FaInstagram className="text-2xl" /> Instagram Group
+            <FaInstagram className="text-2xl" /> Instagram 
           </a>
           <a
             href="https://www.youtube.com/geekyskill4156"
