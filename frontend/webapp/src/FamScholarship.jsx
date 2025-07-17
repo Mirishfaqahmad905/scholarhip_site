@@ -101,7 +101,7 @@ const FamScholarship = () => {
 
   const fetchDatafrom = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/get/scholarship_data');
+      const res = await axios.get('https://scholarhip-site-backend.vercel.app/api/get/scholarship_data');
       setData(res.data);
     } catch (err) {
       setError('Error fetching data');
