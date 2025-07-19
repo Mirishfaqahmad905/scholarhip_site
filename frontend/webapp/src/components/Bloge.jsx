@@ -12,8 +12,7 @@ const Bloge = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // http://localhost:5000/api/get/allbloge
-        const res = await axios.get(${Api_url.BACKEND_URI}/api/get/allbloge);
+        const res = await axios.get(`${Api_url.BACKEND_URI}/api/get/allbloge`);
         setBlogs(res.data);
       } catch (err) {
         setError("Failed to load blogs. Please try again later.");
@@ -37,6 +36,13 @@ const Bloge = () => {
     document.body.classList.remove('overflow-hidden');
   };
 
+  const getFirstAvailableImage = (blog) => {
+    const contentImage = blog.content?.find(c => c.type === 'image' && c.value && !c.value.startsWith('http:///'));
+    if (contentImage?.value) return contentImage.value;
+    if (Array.isArray(blog.image_urls) && blog.image_urls.length > 0 && blog.image_urls[0]) return blog.image_urls[0];
+    return 'https://via.placeholder.com/400x200?text=No+Image';
+  };
+
   return (
     <div className="bg-gradient-to-br from-slate-50 to-slate-200 min-h-screen py-12 px-4 sm:px-6 lg:px-12">
       <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-12 text-gray-900 tracking-tight">
@@ -50,46 +56,33 @@ const Bloge = () => {
       ) : blogs.length === 0 ? (
         <p className="text-center text-gray-500">No blogs found.</p>
       ) : (
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Left Ad */}
-          <aside className="hidden md:block md:col-span-2 bg-yellow-200 rounded-xl p-4 text-center shadow font-semibold text-gray-800">
-            📢 Advertisement
-          </aside>
-
-          {/* Blog Cards */}
-          <main className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {blogs.map((blog) => (
-              <article
-                key={blog._id}
-                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
-              >
-                <img
-                  src={https://scholarhip-site-backend-git-main-mir-ishfaq-ahmads-projects.vercel.app/${blog.content.find(c => c.type === 'image')?.value || 'default.jpg'}}
-                  alt={blog.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4 space-y-2">
-                  <h2 className="text-lg font-bold text-gray-800 truncate">{blog.title}</h2>
-                  <p className="text-sm text-gray-600">📂 {blog.category}</p>
-                  <button
-                    onClick={() => openModal(blog)}
-                    className="w-full mt-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition shadow"
-                  >
-                    Read More
-                  </button>
-                </div>
-              </article>
-            ))}
-          </main>
-
-          {/* Right Ad */}
-          <aside className="hidden md:block md:col-span-2 bg-green-200 rounded-xl p-4 text-center shadow font-semibold text-gray-800">
-            💼 Sponsored
-          </aside>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+          {blogs.map((blog) => (
+            <article
+              key={blog._id}
+              className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
+            >
+              <img
+                src={getFirstAvailableImage(blog)}
+                alt={blog.title}
+                className="w-full h-48 object-cover"
+                onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Image+Not+Found'; }}
+              />
+              <div className="p-4 space-y-2">
+                <h2 className="text-lg font-bold text-gray-800 truncate">{blog.title}</h2>
+                <p className="text-sm text-gray-600">📂 {blog.category}</p>
+                <button
+                  onClick={() => openModal(blog)}
+                  className="w-full mt-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition shadow"
+                >
+                  Read More
+                </button>
+              </div>
+            </article>
+          ))}
         </div>
       )}
 
-      {/* Modal */}
       {showModal && selectedBlog && (
         <div
           onClick={closeModal}
@@ -97,7 +90,7 @@ const Bloge = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white/90 backdrop-blur-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 rounded-2xl shadow-xl relative animate-scaleIn border border-gray-300"
+            className="bg-white max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 rounded-2xl shadow-xl relative animate-scaleIn border border-gray-300"
           >
             <button
               onClick={closeModal}
@@ -107,62 +100,65 @@ const Bloge = () => {
               &times;
             </button>
 
-            <h2 className="text-3xl font-extrabold mb-2 text-gray-900">{selectedBlog.title}</h2>
+            <h2 className="text-3xl font-bold text-blue-800 mb-2 border-b pb-2">{selectedBlog.title}</h2>
             <p className="text-sm text-gray-600 mb-4">
-              ✍️ {selectedBlog.author || 'Anonymous'} &nbsp;|&nbsp; 🏷️ {selectedBlog.category}
+              ✍️ <span className="font-medium">{selectedBlog.author || 'Anonymous'}</span> &nbsp;| &nbsp;🏷️ <span className="font-medium">{selectedBlog.category}</span>
             </p>
 
-            {/* Top Ad */}
-            <div className="bg-yellow-100 py-2 px-4 rounded-xl text-center text-gray-700 font-medium mb-6">
-              📢 Ad Placement
-            </div>
-
-            {/* Blog Content */}
-            <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
+            <div className="space-y-6">
               {selectedBlog.content.map((block, idx) => {
-                if (block.type === 'heading') return <h3 key={idx}>{block.value}</h3>;
-                if (block.type === 'text' || block.type === 'textarea') return <p key={idx}>{block.value}</p>;
-                if (block.type === 'quote') return <blockquote key={idx}>{block.value}</blockquote>;
-                if (block.type === 'image') return (
-                  <img
-                    key={idx}
-                    src={http://localhost:5000/${block.value}}
-                    alt="blog content"
-                    className="rounded-lg shadow my-4"
-                  />
-                );
+                if (block.type === 'heading') return <h3 key={idx} className="text-2xl font-semibold text-indigo-700 border-l-4 pl-3 border-indigo-400">{block.value}</h3>;
+                if (block.type === 'text') return <p key={idx} className="text-base text-gray-800 leading-relaxed">{block.value}</p>;
+                if (block.type === 'textarea') return <p key={idx} className="text-gray-700 italic text-base border-l-2 pl-4 border-gray-400">{block.value}</p>;
+                if (block.type === 'quote') return <blockquote key={idx} className="text-lg font-medium italic text-purple-600 border-l-4 border-purple-400 pl-4">{block.value}</blockquote>;
+                if (block.type === 'image' && block.value && !block.value.startsWith('http:///')) {
+                  return (
+                    <img
+                      key={idx}
+                      src={block.value}
+                      alt="blog content"
+                      className="rounded-xl shadow-lg max-h-96 w-full object-cover"
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Image+Not+Found'; }}
+                    />
+                  );
+                }
                 return null;
               })}
-            </div>
 
-            {/* Bottom Ad */}
-            <div className="bg-emerald-100 py-2 px-4 rounded-xl text-center text-gray-700 font-medium mt-6">
-              💼 Sponsored Content
+              {Array.isArray(selectedBlog.image_urls) && selectedBlog.image_urls.map((url, idx) => (
+                url && url.trim() && !url.startsWith('http:///') && (
+                  <img
+                    key={`external-${idx}`}
+                    src={url}
+                    alt={`external-${idx}`}
+                    className="rounded-xl shadow-md max-h-96 w-full object-cover"
+                    onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Image+Not+Found'; }}
+                  />
+                )
+              ))}
             </div>
           </div>
+
+          <style jsx>{`
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @keyframes scaleIn {
+              from { transform: scale(0.95); opacity: 0; }
+              to { transform: scale(1); opacity: 1; }
+            }
+            .animate-fadeIn {
+              animation: fadeIn 0.25s ease-out forwards;
+            }
+            .animate-scaleIn {
+              animation: scaleIn 0.3s ease-out forwards;
+            }
+          `}</style>
         </div>
       )}
-
-      {/* Animations */}
-      <style jsx>{
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        @keyframes scaleIn {
-          from { transform: scale(0.95); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.25s ease-out forwards;
-        }
-        .animate-scaleIn {
-          animation: scaleIn 0.3s ease-out forwards;
-        }
-      }</style>
     </div>
   );
 };
 
-export default Bloge;;
-
+export default Bloge;
