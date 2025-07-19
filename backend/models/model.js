@@ -215,7 +215,10 @@ const BlogSchema = new mongoose.Schema({
     type: [ContentBlockSchema],
     required: true
   },
-
+  image_urls: {
+    type: [String], // array of image URLs
+    default: []
+  },
   // Step 3: Optional - For future extensions
   tags: [String],
   isPublished: {
