@@ -12,8 +12,7 @@ const Bloge = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // http://localhost:5000/api/get/allbloge
-        const res = await axios.get(${Api_url.BACKEND_URI}/api/get/allbloge);
+        const res = await axios.get(`${Api_url.BACKEND_URI}/api/get/allbloge`);
         setBlogs(res.data);
       } catch (err) {
         setError("Failed to load blogs. Please try again later.");
@@ -51,26 +50,26 @@ const Bloge = () => {
         <p className="text-center text-gray-500">No blogs found.</p>
       ) : (
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Left Ad */}
           <aside className="hidden md:block md:col-span-2 bg-yellow-200 rounded-xl p-4 text-center shadow font-semibold text-gray-800">
             📢 Advertisement
           </aside>
 
-          {/* Blog Cards */}
           <main className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {blogs.map((blog) => (
               <article
                 key={blog._id}
                 className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
               >
-              <img
-  src={
-    blog.content.find(c => c.type === 'image')?.value  ? https://scholarhip-site-backend.vercel.app/${blog.content.find(c => c.type === 'image')?.value}
-      : '/default.jpg' // assuming this is in public folder
-  }
-  alt={blog.title}
-  className="w-full h-48 object-cover"
-/>
+                <img
+                  src={
+                    blog.content.find(c => c.type === 'image')?.value
+                      ? `${Api_url.BACKEND_URI}/${blog.content.find(c => c.type === 'image')?.value}`
+                      : '/default.jpg'
+                  }
+                  alt={blog.title}
+                  className="w-full h-48 object-cover"
+                />
+
                 <div className="p-4 space-y-2">
                   <h2 className="text-lg font-bold text-gray-800 truncate">{blog.title}</h2>
                   <p className="text-sm text-gray-600">📂 {blog.category}</p>
@@ -85,14 +84,12 @@ const Bloge = () => {
             ))}
           </main>
 
-          {/* Right Ad */}
           <aside className="hidden md:block md:col-span-2 bg-green-200 rounded-xl p-4 text-center shadow font-semibold text-gray-800">
             💼 Sponsored
           </aside>
         </div>
       )}
 
-      {/* Modal */}
       {showModal && selectedBlog && (
         <div
           onClick={closeModal}
@@ -115,30 +112,29 @@ const Bloge = () => {
               ✍️ {selectedBlog.author || 'Anonymous'} &nbsp;|&nbsp; 🏷️ {selectedBlog.category}
             </p>
 
-            {/* Top Ad */}
             <div className="bg-yellow-100 py-2 px-4 rounded-xl text-center text-gray-700 font-medium mb-6">
               📢 Ad Placement
             </div>
 
-            {/* Blog Content */}
             <div className="prose prose-sm sm:prose-base lg:prose-lg max-w-none">
               {selectedBlog.content.map((block, idx) => {
                 if (block.type === 'heading') return <h3 key={idx}>{block.value}</h3>;
                 if (block.type === 'text' || block.type === 'textarea') return <p key={idx}>{block.value}</p>;
                 if (block.type === 'quote') return <blockquote key={idx}>{block.value}</blockquote>;
-                if (block.type === 'image') return (
-                  <img
-                    key={idx}
-                    src={http://localhost:5000/${block.value}}
-                    alt="blog content"
-                    className="rounded-lg shadow my-4"
-                  />
-                );
+                if (block.type === 'image') {
+                  return (
+                    <img
+                      key={idx}
+                      src={`${Api_url.BACKEND_URI}/${block.value}`}
+                      alt="blog content"
+                      className="rounded-lg shadow my-4"
+                    />
+                  );
+                }
                 return null;
               })}
             </div>
 
-            {/* Bottom Ad */}
             <div className="bg-emerald-100 py-2 px-4 rounded-xl text-center text-gray-700 font-medium mt-6">
               💼 Sponsored Content
             </div>
@@ -146,8 +142,7 @@ const Bloge = () => {
         </div>
       )}
 
-      {/* Animations */}
-      <style jsx>{
+      <style jsx>{`
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
@@ -162,7 +157,7 @@ const Bloge = () => {
         .animate-scaleIn {
           animation: scaleIn 0.3s ease-out forwards;
         }
-      }</style>
+      `}</style>
     </div>
   );
 };
