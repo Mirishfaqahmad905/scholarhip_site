@@ -103,10 +103,11 @@ const PORT = process.env.PORT || 3000;
 
 // ✅ Correct CORS Setup
 app.use(cors({
-  origin: 'scholarhip-site-client.vercel.app',
+  origin: 'https://www.scholarshipopertunity.com', // ✅ updated domain
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
