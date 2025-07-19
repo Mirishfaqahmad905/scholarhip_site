@@ -13,6 +13,45 @@ const transporter = nodemailer.createTransport({
   }
 });
 // blog controoler 
+// const saveBlog = async (req, res) => {
+//   try {
+//     const { title, author, category, content } = req.body;
+
+//     if (!title || !category || !content) {
+//       return res.status(400).json({ error: 'Title, category, and content are required.' });
+//     }
+
+//     // Parse content array
+//     let contentBlocks = JSON.parse(content);
+
+//     if (req.files && req.files.length > 0) {
+//       let imgIndex = 0;
+//       contentBlocks = contentBlocks.map((block) => {
+//         if (block.type === 'image' && req.files[imgIndex]) {
+//           block.value = req.files[imgIndex].path.replace(/\\/g, '/');
+//           imgIndex++;
+//         }
+//         return block;
+//       });
+//     }
+
+//     const blog = new Blog({
+//       title,
+//       author: author || 'Anonymous',
+//       category,
+//       content: contentBlocks
+//     });
+
+//     const saved = await blog.save();
+//     res.status(201).json({ message: '✅ Blog saved successfully', data: saved });
+
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: '❌ Blog submission failed' });
+//   }
+// };
+
+
 const saveBlog = async (req, res) => {
   try {
     const { title, author, category, content } = req.body;
@@ -23,12 +62,20 @@ const saveBlog = async (req, res) => {
 
     // Parse content array
     let contentBlocks = JSON.parse(content);
+    let imageUrl = '';
 
     if (req.files && req.files.length > 0) {
       let imgIndex = 0;
       contentBlocks = contentBlocks.map((block) => {
         if (block.type === 'image' && req.files[imgIndex]) {
-          block.value = req.files[imgIndex].path.replace(/\\/g, '/');
+          const imgPath = req.files[imgIndex].path.replace(/\\/g, '/');
+          block.value = imgPath;
+
+          // 👇 Save the first image as main image_url
+          if (!imageUrl) {
+            imageUrl = imgPath;
+          }
+
           imgIndex++;
         }
         return block;
@@ -39,7 +86,8 @@ const saveBlog = async (req, res) => {
       title,
       author: author || 'Anonymous',
       category,
-      content: contentBlocks
+      content: contentBlocks,
+      image_url: imageUrl, // ✅ Save the first image as main
     });
 
     const saved = await blog.save();
@@ -50,6 +98,7 @@ const saveBlog = async (req, res) => {
     res.status(500).json({ error: '❌ Blog submission failed' });
   }
 };
+
 // fetching bloge data from c databse controller
  const bloge_data_fetch= async (req, res) => {
   
