@@ -210,10 +210,6 @@ const BlogSchema = new mongoose.Schema({
     enum: ['Scholarship', 'Internship', 'Leadership', 'Announcement'],
     required: true
   },
-  image_url: {
-    type: String,
-    default: '', // Set default to empty or your placeholder image path
-  },
   // Step 2: Blog Content Blocks
   content: {
     type: [ContentBlockSchema],
