@@ -64,7 +64,7 @@ const Bloge = () => {
                 className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
               >
                 <img
-                  src={http://localhost:5000/${blog.content.find(c => c.type === 'image')?.value || 'default.jpg'}}
+                  src={https://scholarhip-site-backend-git-main-mir-ishfaq-ahmads-projects.vercel.app/${blog.content.find(c => c.type === 'image')?.value || 'default.jpg'}}
                   alt={blog.title}
                   className="w-full h-48 object-cover"
                 />
