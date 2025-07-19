@@ -12,7 +12,6 @@ const Bloge = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // http://localhost:5000/api/get/allbloge
         const res = await axios.get(`${Api_url.BACKEND_URI}/api/get/allbloge`);
         setBlogs(res.data);
       } catch (err) {
@@ -58,32 +57,35 @@ const Bloge = () => {
 
           {/* Blog Cards */}
           <main className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {blogs.map((blog) => (
-              <article
-                key={blog._id}
-                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
-              >
-              <img
-  src={
-    blog.content.find(c => c.type === 'image')?.value
-      ? `https://scholarhip-site-backend.vercel.app/${blog.content.find(c => c.type === 'image')?.value}`
-      : '/default.jpg' // assuming this is in public folder
-  }
-  alt={blog.title}
-  className="w-full h-48 object-cover"
-/>
-                <div className="p-4 space-y-2">
-                  <h2 className="text-lg font-bold text-gray-800 truncate">{blog.title}</h2>
-                  <p className="text-sm text-gray-600">📂 {blog.category}</p>
-                  <button
-                    onClick={() => openModal(blog)}
-                    className="w-full mt-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition shadow"
-                  >
-                    Read More
-                  </button>
-                </div>
-              </article>
-            ))}
+            {blogs.map((blog) => {
+              const imageBlock = blog.content.find(c => c.type === 'image');
+              const imageUrl = imageBlock
+                ? `${Api_url.BACKEND_URI}/${imageBlock.value}`
+                : '/default.jpg';
+
+              return (
+                <article
+                  key={blog._id}
+                  className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
+                >
+                  <img
+                    src={imageUrl}
+                    alt={blog.title}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-4 space-y-2">
+                    <h2 className="text-lg font-bold text-gray-800 truncate">{blog.title}</h2>
+                    <p className="text-sm text-gray-600">📂 {blog.category}</p>
+                    <button
+                      onClick={() => openModal(blog)}
+                      className="w-full mt-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded-lg hover:from-blue-700 hover:to-indigo-700 transition shadow"
+                    >
+                      Read More
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
           </main>
 
           {/* Right Ad */}
@@ -127,14 +129,19 @@ const Bloge = () => {
                 if (block.type === 'heading') return <h3 key={idx}>{block.value}</h3>;
                 if (block.type === 'text' || block.type === 'textarea') return <p key={idx}>{block.value}</p>;
                 if (block.type === 'quote') return <blockquote key={idx}>{block.value}</blockquote>;
-                if (block.type === 'image') return (
-                  <img
-                    key={idx}
-                    src={`http://localhost:5000/${block.value}`}
-                    alt="blog content"
-                    className="rounded-lg shadow my-4"
-                  />
-                );
+                if (block.type === 'image') {
+                  const modalImgSrc = block.value?.startsWith('http')
+                    ? block.value
+                    : `${Api_url.BACKEND_URI}/${block.value}`;
+                  return (
+                    <img
+                      key={idx}
+                      src={modalImgSrc}
+                      alt="blog content"
+                      className="rounded-lg shadow my-4"
+                    />
+                  );
+                }
                 return null;
               })}
             </div>
