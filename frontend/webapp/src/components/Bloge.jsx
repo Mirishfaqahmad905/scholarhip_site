@@ -63,11 +63,15 @@ const Bloge = () => {
                 key={blog._id}
                 className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-transform transform hover:-translate-y-1"
               >
-                <img
-                  src={`http://localhost:5000/${blog.content.find(c => c.type === 'image')?.value || 'default.jpg'}`}
-                  alt={blog.title}
-                  className="w-full h-48 object-cover"
-                />
+              <img
+  src={
+    blog.content.find(c => c.type === 'image')?.value
+      ? `https://scholarhip-site-backend.vercel.app/${blog.content.find(c => c.type === 'image')?.value}`
+      : '/default.jpg' // assuming this is in public folder
+  }
+  alt={blog.title}
+  className="w-full h-48 object-cover"
+/>
                 <div className="p-4 space-y-2">
                   <h2 className="text-lg font-bold text-gray-800 truncate">{blog.title}</h2>
                   <p className="text-sm text-gray-600">📂 {blog.category}</p>
