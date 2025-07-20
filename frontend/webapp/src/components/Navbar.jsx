@@ -43,7 +43,7 @@ const Navbar = () => {
                     className="h-12 w-12 object-cover rounded-full shadow-lg border-2 border-white transition-transform duration-300 hover:scale-105"
                     loading="lazy"
                   />
-                  <span className="text-xl font-bold text-white tracking-wide">studyAbroadGo</span>
+                  <span className="text-xl font-bold text-white tracking-wide">scholarship opertunity</span>
                 </Link>
               </div>
 
