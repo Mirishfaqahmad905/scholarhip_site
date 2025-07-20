@@ -108,7 +108,7 @@ const PORT = process.env.PORT || 3000;
 //   credentials: true
 // }));
 const allowedOrigins = [
-  'https://scholarhip-site-client.vercel.app',
+  // 'https://scholarhip-site-client.vercel.app',
   'https://www.scholarshipopertunity.com'
 ];
 
