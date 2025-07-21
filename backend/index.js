@@ -25,28 +25,29 @@ const PORT = process.env.PORT || 3000;
 // ];
 
 
-app.use(cors({
-  origin: 'https://www.scholarshipopertunity.com', // ✅ updated domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
-
-// const allowedOrigins = [
-//   // 'https://scholarhip-site-client.vercel.app',
-//   'https://www.scholarshipopertunity.com'
-// ];
-
 // app.use(cors({
-//   origin: function (origin, callback) {
-//     if (!origin || allowedOrigins.includes(origin)) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-//   credentials: true,
+//   origin: 'https://www.scholarshipopertunity.com', // ✅ updated domain
 //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//   credentials: true
 // }));
+
+const allowedOrigins = [
+  'https://www.scholarshipopertunity.com'
+  'https://scholarhip-site-client.vercel.app',
+
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
