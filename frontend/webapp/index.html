@@ -4,60 +4,73 @@
     <meta charset="UTF-8" />
     
     <!-- ✅ Title -->
-    <title>studyAbroadGo - Study Abroad Opportunities 2025</title>
+    <title>Scholarshipopertunity - Study Abroad Opportunities 2025</title>
 
-    <!-- ✅ Favicon (corrected) -->
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <!-- ✅ Favicon -->
+    <link rel="icon" type="image/jpg" href="/logo_.jpg" />
 
     <!-- ✅ Responsive Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- ✅ Basic Meta Description -->
-    <meta name="description" content="Get the latest updates on international scholarships, internships, leadership programs, and study abroad opportunities.">
+    <meta name="description" content="Get the latest updates on international scholarships, internships, leadership programs, and study abroad opportunities for 2025." />
 
     <!-- ✅ Keywords -->
-    <meta name="keywords" content="scholarships, study abroad, internships, fully funded, 2025, international students, visa, masters, phd, UK, USA, Canada, Europe">
+    <meta name="keywords" content="scholarships, study abroad, internships, fully funded, 2025, international students, visa, masters, phd, UK, USA, Canada, Europe" />
 
     <!-- ✅ Author -->
-    <meta name="author" content="StudyAbroadGo Team" />
+    <meta name="author" content="Scholarshipopertunity Team" />
 
     <!-- ✅ Open Graph (Facebook/LinkedIn) -->
-    <meta property="og:title" content="Scholarship Update - Study Abroad Opportunities 2025" />
+    <meta property="og:title" content="Scholarshipopertunity - Study Abroad Opportunities 2025" />
     <meta property="og:description" content="Find and apply to top scholarships, internships, and study abroad programs for 2025." />
-    <meta property="og:image" content="/logo.png" />
-    <meta property="og:url" content="https://www.studyabroadgo.com" />
+    <meta property="og:image" content="/logo_.jpg" />
+    <meta property="og:url" content="https://www.scholarshipopertunity.com" />
     <meta property="og:type" content="website" />
 
     <!-- ✅ Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Scholarship Update - Study Abroad Opportunities 2025" />
-    <meta name="twitter:description" content="Fully funded scholarships and global education opportunities." />
-    <meta name="twitter:image" content="/logo.png" />
+    <meta name="twitter:title" content="Scholarshipopertunity - Study Abroad Opportunities 2025" />
+    <meta name="twitter:description" content="Fully funded scholarships and global education opportunities for 2025." />
+    <meta name="twitter:image" content="/logo_.jpg" />
 
-    <!-- ✅ Tailwind (you can remove this script if you're using PostCSS version of Tailwind) -->
+    <!-- ✅ Tailwind CSS via CDN (if not using PostCSS) -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- ✅ Optional: JSON-LD Structured Data (SEO boost) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Scholarshipopertunity",
+      "url": "https://www.scholarshipopertunity.com",
+      "logo": "https://www.scholarshipopertunity.com/logo_.jpg",
+      "sameAs": [
+        "https://www.facebook.com/yourpage",
+        "https://twitter.com/yourpage",
+        "https://www.instagram.com/yourpage"
+      ]
+    }
+    </script>
   </head>
 
   <body>
     <div id="root"></div>
- <script type="text/javascript">
-  (function (l) {
-    if (l.search[1] === "/") {
-      var decoded = l.search
-        .slice(1)
-        .split("&")
-        .map(function (s) {
-          return s.replace(/~and~/g, "&");
-        })
-        .join("?");
-      window.history.replaceState(
-        null,
-        null,
-        l.pathname.slice(0, -1) + decoded + l.hash
-      );
-    }
-  })(window.location);
-</script>
+
+    <script type="text/javascript">
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
 
     <script type="module" src="/src/main.jsx"></script>
   </body>
