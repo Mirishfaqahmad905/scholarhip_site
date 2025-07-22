@@ -37,17 +37,14 @@ const Navbar = () => {
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
                 <Link to="/" className="flex items-center space-x-2" onClick={() => setMenuOpen(false)}>
-                  <img
-                    src="/logo_.jpg"
-                    alt="scholarshipopertunity"
-                    className="h-12 w-12 object-cover rounded-full shadow-lg border-2 border-white transition-transform duration-300 hover:scale-105"
-                    loading="lazy"
-                  />
-<<<<<<< HEAD
-                  <span className="text-xl font-bold text-white tracking-wide">scholarship opertunity</span>
-=======
-                  <span className="text-xl font-bold text-white tracking-wide">scholarshipopertunity</span>
->>>>>>> 60260af (Initial commit)
+                 <img
+  src="/logo_.jpg"
+  alt="scholarshipopertunity"
+  className="h-12 w-12 object-cover rounded-full shadow-lg border-2 border-white transition-transform duration-300 hover:scale-105"
+  loading="lazy"
+/>
+<span className="text-xl font-bold text-white tracking-wide">scholarshipopertunity</span>
+
                 </Link>
               </div>
 
