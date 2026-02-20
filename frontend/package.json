@@ -1,0 +1,10 @@
+{
+  "name": "scholarship-frontend",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix webapp_clean run dev",
+    "build": "npm --prefix webapp_clean run build",
+    "preview": "npm --prefix webapp_clean run preview",
+    "lint": "npm --prefix webapp_clean run lint"
+  }
+}

@@ -1,7 +1,13 @@
 const mongoose=require('mongoose');
+const ImageSchema = new mongoose.Schema({
+  data: { type: Buffer, required: true },
+  contentType: { type: String, required: true },
+  fileName: { type: String, default: '' },
+}, { _id: false });
+
 const leadership_schema = new mongoose.Schema({
   programTitle: { type: String, required: true },
-  image: { type: String, required: true },
+  image: { type: mongoose.Schema.Types.Mixed, required: true },
   hostCountry: { type: String, required: true },
   hostOrganization: { type: String, required: false },
   programLocation: { type: String, required: true },
@@ -27,7 +33,7 @@ const scholarshipSchema = new mongoose.Schema({
         required:true
     },
      image:{
-         type:String,
+         type:mongoose.Schema.Types.Mixed,
          required:true
      },
     description:{
@@ -56,7 +62,7 @@ const scholarshipSchema = new mongoose.Schema({
         required:true
     },
      region:{
-         type:['south america','Africa', 'Asia', 'Europe', 'North America', 'South America', 'Australia', 'Middle East', 'Oceania', 'Global','american'],
+         type:['south america','Africa', 'Asia', 'Europe', 'North America', 'South America', 'Australia', 'Middle East', 'Oceania', 'Global','american', 'Russia', 'russia', 'Russian Region'],
          required:true 
      },
      country:{
@@ -70,6 +76,10 @@ const scholarshipSchema = new mongoose.Schema({
      document:{
          type:String,
          required:false
+     },
+     requiredDocuments: {
+         type: String,
+         required: false
      },
     hostUniversity:{
         type:String,
@@ -108,7 +118,7 @@ const scholarshipSchema = new mongoose.Schema({
          required:true
      },
       image:{
-         type:String,
+         type:mongoose.Schema.Types.Mixed,
          required:true
       },
        description:{
@@ -234,6 +244,45 @@ const BlogSchema = new mongoose.Schema({
 
 const Blog = mongoose.model('Blog', BlogSchema);
 
+const SiteSettingSchema = new mongoose.Schema(
+  {
+    key: { type: String, unique: true, default: 'main' },
+    logo: {
+      data: { type: Buffer },
+      contentType: { type: String },
+      fileName: { type: String, default: '' },
+    },
+    socialLinks: {
+      whatsapp: { type: String, default: '' },
+      instagram: { type: String, default: '' },
+      youtube: { type: String, default: '' },
+      facebook: { type: String, default: '' },
+      telegram: { type: String, default: '' },
+      linkedin: { type: String, default: '' },
+      x: { type: String, default: '' },
+    },
+    youtubeVideos: [
+      {
+        title: { type: String, default: '' },
+        url: { type: String, required: true },
+        description: { type: String, default: '' },
+      },
+    ],
+  },
+  { timestamps: true }
+);
+
+const SiteSetting = mongoose.model('site_setting', SiteSettingSchema);
+
+const UserSchema = new mongoose.Schema({
+  fullName: { type: String, required: true, trim: true },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+  passwordHash: { type: String, required: true },
+  notifyOnNewOpportunity: { type: Boolean, default: true },
+  lastLoginAt: { type: Date, default: null },
+}, { timestamps: true });
+
+const User = mongoose.model('users', UserSchema);
 
 
  const subscriber_notification= mongoose.model("subscriber_notification", subscriberSchema);
@@ -241,5 +290,5 @@ const Blog = mongoose.model('Blog', BlogSchema);
  const leaderhip_programs= mongoose.model("leaderhip_programe",leadership_schema);
  const internshipmodel=mongoose.model("internship_model",internshipSchema);
   const admin=mongoose.model("admintabls",adminSchem);
- const scholarshipModel=mongoose.model("scholarshipSchema",scholarshipSchema);
-module.exports={scholarshipModel,admin,internshipmodel,leaderhip_programs, contactform,subscriber_notification,Blog};
+const scholarshipModel=mongoose.model("scholarshipSchema",scholarshipSchema);
+module.exports={scholarshipModel,admin,internshipmodel,leaderhip_programs, contactform,subscriber_notification,Blog,SiteSetting,User};

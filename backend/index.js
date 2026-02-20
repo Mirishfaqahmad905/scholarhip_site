@@ -1,73 +1,77 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const path = require('path');
+const config = require('./config/appConfig');
 const connectDb = require('./config/Db');
 const userRoute = require('./routes/useRoue.js');
-
-dotenv.config();
-connectDb();
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const allowedOrigins = new Set(config.corsOrigins);
 
-// ✅ Allow multiple frontend origins
-const allowedOrigins = [
-  'https://scholarhip-site-client.vercel.app',
-  'https://www.scholarshipopertunity.com'
-];
-
-<<<<<<< HEAD
-// app.use(cors({
-//   origin: 'https://www.scholarshipopertunity.com', // ✅ updated domain
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   credentials: true
-// }));
-
-const allowedOrigins = [
-  'https://scholarhip-site-client.vercel.app',
-  'https://www.scholarshipopertunity.com'
-];
-
-=======
->>>>>>> 27c39c83aad9bb2dcf77d381d83f80753066735c
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-<<<<<<< HEAD
-      callback(new Error('Not allowed by CORS'));
-=======
-      callback(new Error('❌ Not allowed by CORS'));
->>>>>>> 27c39c83aad9bb2dcf77d381d83f80753066735c
+const corsOptions = {
+  origin(origin, callback) {
+    const isVercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(origin || '');
+    if (!origin || allowedOrigins.has(origin) || isVercelPreview) {
+      return callback(null, true);
     }
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
   },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-<<<<<<< HEAD
-=======
+  credentials: false,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 204,
+};
 
->>>>>>> 27c39c83aad9bb2dcf77d381d83f80753066735c
-app.use(express.json());
+app.set('trust proxy', 1);
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(morgan('dev'));
+app.use(morgan(config.nodeEnv === 'production' ? 'combined' : 'dev'));
 
-// ✅ Serve static files from 'uploads' folder
-app.use('/uploads', express.static('uploads'));
-
-// ✅ Main API route
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', userRoute);
 
-// ✅ Default root route
-app.get('/', (req, res) => {
-  res.send('✅ Backend is live Now');
+app.get('/health', (req, res) => {
+  res.status(200).json({ success: true, message: 'OK' });
 });
 
-// ✅ Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+app.get('/', (req, res) => {
+  res.send('Backend is live now');
 });
+
+app.use(notFound);
+app.use(errorHandler);
+
+async function bootstrap() {
+  try {
+    await connectDb();
+    if (!config.isVercel) {
+      const server = app.listen(config.port, () => {
+        console.log(`Server running on http://localhost:${config.port}`);
+      });
+      server.on('error', (error) => {
+        console.error(`Server startup error on port ${config.port}:`, error.message);
+        process.exit(1);
+      });
+    }
+  } catch (error) {
+    console.error('Failed to bootstrap server:', error.message);
+    process.exit(1);
+  }
+}
+
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled promise rejection:', reason);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught exception:', error);
+  process.exit(1);
+});
+
+bootstrap();
+
+module.exports = app;

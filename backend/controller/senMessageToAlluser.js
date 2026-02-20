@@ -1,47 +1,52 @@
-// controllers/sendToAllSubscribers.js
-const nodemailer=require('nodemailer');
-const subscriber_notification=require('../models/model.js');
+const nodemailer = require('nodemailer');
+const { subscriber_notification } = require('../models/model.js');
+const config = require('../config/appConfig');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL,        // your Gmail address
-    pass: process.env.APP_PASSWORD, // your app password
-  },
-});
+const canSendEmail = Boolean(config.mail.user && config.mail.pass);
 
-export const sendNotificationToAll = async (req, res) => {
+const transporter = canSendEmail
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: config.mail.user,
+        pass: config.mail.pass,
+      },
+    })
+  : null;
+
+const sendNotificationToAll = async (req, res) => {
   try {
-    const subscriber_notification = await Subscriber.find({});
-
-    if (subscribers.length === 0) {
-      return res.status(404).json({ message: "No subscribers found." });
+    if (!canSendEmail || !transporter) {
+      return res.status(400).json({
+        message: 'Email is not configured. Set GMAIL and APP_PASSWORD.',
+      });
     }
 
-    const emails = subscriber_notification.map(sub => sub.email);
+    const subscribers = await subscriber_notification.find({}, { email: 1, _id: 0 });
 
-    const mailOptions = {
-      from: process.env.GMAIL,
-      to: emails, // an array of all emails
-      subject: "🎓 New Scholarship Opportunity!",
+    if (!subscribers.length) {
+      return res.status(404).json({ message: 'No subscribers found.' });
+    }
+
+    const emails = subscribers.map((sub) => sub.email).filter(Boolean);
+    const siteUrl = config.frontendUrl;
+
+    await transporter.sendMail({
+      from: config.mail.user,
+      to: emails,
+      subject: 'New Scholarship Opportunity',
       html: `
-        <h2>New scholarship just added! 🎉</h2>
+        <h2>New scholarship just added!</h2>
         <p>Visit our website now to explore and apply.</p>
-        <a href="https://localhost:5000" style="color:blue;">Visit Site</a>
+        <a href="${siteUrl}" style="color: blue;">Visit Website</a>
       `,
-    };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-      if (err) {
-        console.error("Error sending bulk email:", err);
-        return res.status(500).json({ message: "Email sending failed." });
-      } else {
-        console.log("Bulk email sent successfully to:", emails);
-        return res.status(200).json({ message: "Emails sent to all subscribers!" });
-      }
     });
+
+    return res.status(200).json({ message: 'Emails sent to all subscribers.' });
   } catch (error) {
-    console.error("Error in sendNotificationToAll:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error in sendNotificationToAll:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+module.exports = { sendNotificationToAll };
