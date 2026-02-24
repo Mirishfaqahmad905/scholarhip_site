@@ -22,6 +22,7 @@ const defaultCorsOrigins = [
   'https://scholarhip-site-client.vercel.app',
   'https://www.scholarshipopertunity.com',
   'https://scholarshipopertunity.com',
+  'scholarshipbackendside.vercel.app',
 ];
 
 const appConfig = Object.freeze({
